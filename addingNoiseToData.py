@@ -1,3 +1,26 @@
+"""
+Noise source:	    Percentage adding to Data:
+Traffic noise	    30-50%
+Aircraft noise	    10-20%
+Construction noise	10-20%
+Animal noise	    10-20%
+Thunderstorms	    5-10%
+Rainfall	        5-10%
+Wind	            5-10%
+Birds singing	    5-10%
+Crickets chirping	5-10%
+Leaves rustling	    5-10%
+Office noise	    30-50%
+Sports noise        10-20%
+
+TO_DO:  1. Calculate size of Data
+        2. Divide noise data on needed percentage (%) according to Voice Data size
+        3. (Calculate) Decide in what segment of Voice Data put the Noise Data
+        4. Append Noise Data to Voice Data
+"""
+
+
+
 import numpy as np
 import soundfile as sf
 from scipy.signal import resample
