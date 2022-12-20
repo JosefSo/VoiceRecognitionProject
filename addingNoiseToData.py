@@ -50,8 +50,8 @@ def add_noise(voice_data, noise_data, noise_level):
 
 
 # Load the voice data and noise data
-voice_data, _ = sf.read('voice.wav')
-noise_data, _ = sf.read('noise.wav')
+voice_data, _ = sf.read('voice_data/voice.wav')
+noise_data, _ = sf.read('noise_data/noise.wav')
 
 # Add noise to the voice data at various levels
 mixed_data_1 = add_noise(voice_data, noise_data, 0.1)
@@ -59,6 +59,6 @@ mixed_data_2 = add_noise(voice_data, noise_data, 0.5)
 mixed_data_3 = add_noise(voice_data, noise_data, 0.9)
 
 # Save the mixed data to new audio files
-sf.write('mixed_data_1.wav', mixed_data_1, 44100)
-sf.write('mixed_data_2.wav', mixed_data_2, 44100)
-sf.write('mixed_data_3.wav', mixed_data_3, 44100)
+sf.write('mixed_data/mixed_data_1.wav', mixed_data_1, 44100)
+sf.write('mixed_data/mixed_data_2.wav', mixed_data_2, 44100)
+sf.write('mixed_data/mixed_data_3.wav', mixed_data_3, 44100)
