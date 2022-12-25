@@ -37,7 +37,7 @@ def add_noise(voice_data, noise_data, noise_level):
     # Resample the noise data to match the sample rate of the voice data
     print(f"int(voice_data.shape[0]) {(voice_data.shape[0])}")
     print(f"noise_data.shape[0]) {noise_data.shape[0]}")
-    print(f"int(voice_data.shape[0] / noise_data.shape[0]) {int(voice_data.shape[0] / noise_data.shape[0])}" )
+    print(f"int(voice_data.shape[0] / noise_data.shape[0]) {int(voice_data.shape[0] / noise_data.shape[0])}")
     noise_data = resample(noise_data, 1)
 
     # Trim the noise data to match the length of the voice data

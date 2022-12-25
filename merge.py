@@ -12,6 +12,8 @@ path_of_the_directory_data = 'data'
 
 ext = ('.wav')
 idx = 0;
+
+
 for dataFiles in os.listdir(path_of_the_directory_data):
     if dataFiles.endswith(ext):
         randomFile = random.choice(os.listdir('audio_youtube'))  # change dir name to whatever
