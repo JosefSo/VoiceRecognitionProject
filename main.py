@@ -2,7 +2,7 @@ from datasets import load_dataset, load_metric, Audio, ClassLabel, load_from_dis
 from transformers import Wav2Vec2CTCTokenizer, Wav2Vec2FeatureExtractor, Wav2Vec2Processor, Wav2Vec2ForCTC, \
     TrainingArguments, Trainer
 import torch
-import torchaudio
+# import torchaudio
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Union
 import random
@@ -11,10 +11,10 @@ import numpy as np
 from IPython.display import display, HTML
 import re
 import json
-from torch.utils.tensorboard import SummaryWriter
+# from torch.utils.tensorboard import SummaryWriter
 
 # the writer is responsible for tensorboard logging
-writer = SummaryWriter(comment="_russian_augmented")
+# writer = SummaryWriter(comment="_russian_augmented")
 
 print("----------------- Checking if cuda is available... -----------------")
 print(f'Cuda Available = {torch.cuda.is_available()}\n\n')
@@ -38,7 +38,7 @@ features = Features(
         "down_votes": Value("int64"),
         "age": Value("string"),
         "gender": Value("string"),
-        "accents": Value("string"),
+        "accent": Value("string"),
         "locale": Value("string"),
         "segment": Value("string"),
     }
@@ -47,17 +47,17 @@ features = Features(
 # To prepare the csv:
 # add column 'audio' with absolut path to the audio files (Excel function: =CONCAT('path/to/audio_files/folder' B2))
 train_from_csv = load_dataset('csv', data_files={'train': 'train.csv', },
-                              data_dir='/home/or/Desktop/arabic_new_dataset')
-validation_from_csv = load_dataset('csv', data_files={'validation': 'dev.csv', },
-                                   data_dir='/home/or/Desktop/arabic_new_dataset')
+                              data_dir='/Users/joseph/Desktop/Data/huggingface/datasets/downloads/extracted/c2137b76dc677adb64cbd000e78c4ff69c9ab84dafa95896f413dfd594a11d9e/cv-corpus-6.1-2020-12-11/ru/new_dataset')
+validation_from_csv = load_dataset('csv', data_files={'validation': 'validated.csv', },
+                                   data_dir='/Users/joseph/Desktop/Data/huggingface/datasets/downloads/extracted/c2137b76dc677adb64cbd000e78c4ff69c9ab84dafa95896f413dfd594a11d9e/cv-corpus-6.1-2020-12-11/ru/new_dataset')
 
 train_from_csv = train_from_csv.cast(features)
 validation_from_csv = validation_from_csv.cast(features)
 
 train_from_csv = train_from_csv.remove_columns(
-    ["accents", "age", "client_id", "down_votes", "gender", "locale", "segment", "up_votes"])
+    ["accent", "age", "client_id", "down_votes", "gender", "locale", "segment", "up_votes"])
 validation_from_csv = validation_from_csv.remove_columns(
-    ["accents", "age", "client_id", "down_votes", "gender", "locale", "segment", "up_votes"])
+    ["accent", "age", "client_id", "down_votes", "gender", "locale", "segment", "up_votes"])
 
 train = train_from_csv['train']
 validation = validation_from_csv['validation']
@@ -309,5 +309,5 @@ trainer.train()
 # trainer.train(resume_from_checkpoint=<path/to/checkpoint>)  # to continue training from specific checkpoint
 print("----------------- Training complete. -----------------\n\n")
 
-writer.close()
+# writer.close()
 # In order to see the tensorboard run the following command: tensorboard --logdir=wav2vec2-large-xlsr-arabic/runs
