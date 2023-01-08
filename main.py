@@ -16,8 +16,13 @@ import json
 # the writer is responsible for tensorboard logging
 # writer = SummaryWriter(comment="_russian_augmented")
 
+
+
 print("----------------- Checking if cuda is available... -----------------")
 print(f'Cuda Available = {torch.cuda.is_available()}\n\n')
+
+torch.device("mps")
+
 
 # print("----------------- Loading Datasets... -----------------")
 # train = load_dataset("mozilla-foundation/common_voice_11_0", "pt", split="train", use_auth_token=True)
@@ -114,12 +119,12 @@ print(f'Vocab_len: {len(vocab_dict)}')
 print("----------------- Preparing vocab complete. -----------------\n\n")
 
 print("----------------- Saving vocab to jason... -----------------")
-with open('vocab_ar_clean.json', 'w') as vocab_file:
+with open('vocab_ru_clean.json', 'w') as vocab_file:
     json.dump(vocab_dict, vocab_file)
 
 print("----------------- Saving vocab to jason complete. -----------------\n\n")
 
-tokenizer = Wav2Vec2CTCTokenizer("./vocab_ar_clean.json", unk_token="[UNK]", pad_token="[PAD]", word_delimiter_token="|")
+tokenizer = Wav2Vec2CTCTokenizer("./vocab_ru_clean.json", unk_token="[UNK]", pad_token="[PAD]", word_delimiter_token="|")
 
 feature_extractor = Wav2Vec2FeatureExtractor(feature_size=1, sampling_rate=16000, padding_value=0.0, do_normalize=True,
                                              return_attention_mask=True)
@@ -158,15 +163,11 @@ validation = validation.map(prepare_dataset, remove_columns=validation.column_na
 print("\n\n----------------- Preparing datasets complete. -----------------\n\n")
 
 print("----------------- saving datasets... -----------------")
-train.save_to_disk('/home/or/Desktop/russian/current/train_aug')
-validation.save_to_disk('/home/or/Desktop/russian/current/validation')
+train.save_to_disk('/Users/joseph/Desktop/Data/huggingface/datasets/downloads/extracted/c2137b76dc677adb64cbd000e78c4ff69c9ab84dafa95896f413dfd594a11d9e/cv-corpus-6.1-2020-12-11/ru/train_with_noise')
+validation.save_to_disk('/Users/joseph/Desktop/Data/huggingface/datasets/downloads/extracted/c2137b76dc677adb64cbd000e78c4ff69c9ab84dafa95896f413dfd594a11d9e/cv-corpus-6.1-2020-12-11/ru/validation')
 print("----------------- saving datasets complete. -----------\n\n")
 
-#  Loading from file
-# print("----------------- Loading Datasets... -----------------")
-# train = load_from_disk('/home/or/Desktop/russian/current/train_aug')
-# validation = load_from_disk('/home/or/Desktop/russian/current/validation')
-# print("----------------- Loading Datasets complete. ----------\n\n")
+
 @dataclass
 class DataCollatorCTCWithPadding:
     """
@@ -275,6 +276,8 @@ print("----------------- Loading Model complete. -----------------\n\n")
 model.freeze_feature_encoder()
 
 model.gradient_checkpointing_enable()
+
+# model.to("mps")
 
 training_args = TrainingArguments(
     output_dir="russian_augmented",
